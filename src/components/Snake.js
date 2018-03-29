@@ -1,3 +1,5 @@
+import { distance } from './Utilities'
+
 export default class Snake {
 	canvas = {
 		ctx: null,
@@ -10,8 +12,10 @@ export default class Snake {
 	dx = null
 	dy = null
 	scale = null
+	tail = []
+	total = null
 
-	constructor(ctx, width, height, x, y) {
+	constructor(ctx, width, height, x, y, scale) {
 		this.canvas = {
 			ctx, width, height
 		}
@@ -19,7 +23,8 @@ export default class Snake {
 		this.y = y
 		this.dx = 0
 		this.dy = 0
-		this.scale = 10
+		this.scale = scale
+		this.total = 0
 	}
 
 	controller(e) {
@@ -43,6 +48,14 @@ export default class Snake {
 				this.dy = 1
 			break
 		}  	
+  }
+
+  eat(food) {
+  	if(distance(this.x, food.x) < 1 && distance(this.y, food.y) < 1){
+  		this.total++
+  		console.log(this.total)
+  		return true
+  	}
   }
 
 	update() {
