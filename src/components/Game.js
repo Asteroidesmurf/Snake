@@ -20,8 +20,8 @@ export default class Game {
   	this.canvas = {
   		ctx, width, height
   	}
-  	this.fps = 10
-    this.scale = 20
+  	this.fps = 15
+    this.scale = 15
     this.score = 0
   }
 

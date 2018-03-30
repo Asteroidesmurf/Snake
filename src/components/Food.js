@@ -27,7 +27,9 @@ export default class Snake {
 	draw() {
 		this.canvas.ctx.fillStyle = this.color
 		this.canvas.ctx.fillRect(this.x * this.scale, this.y * this.scale, this.scale - 2, this.scale - 2)
-		this.age -= 0.1
+		if(this.age > 1) {
+			this.age -= 0.1
+		}
 	}
 
 }
