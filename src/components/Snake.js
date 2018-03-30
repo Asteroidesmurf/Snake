@@ -6,29 +6,36 @@ export default class Snake {
 		widht: null,
 		height: null
 	}
-
-	x = null
-	y = null
+	vector = {
+		x: null,
+		y: null
+	}
 	dx = null
 	dy = null
 	scale = null
-	tail = []
 	total = null
+ 	i = null
+ 	j = null
+
 
 	constructor(ctx, width, height, x, y, scale) {
 		this.canvas = {
 			ctx, width, height
 		}
-		this.x = x
-		this.y = y
-		this.dx = 0
-		this.dy = 0
+		this.vector = {
+			x, y
+		}
+
 		this.scale = scale
-		this.total = 0
+		this.tail = []
+		this.nextTail = []
+		this.dx = 1
+		this.dy = 0
+		this.total = 5
 	}
 
 	controller(e) {
-  	var key = e.keyCode ?e.keyCode : e.which
+  	let key = e.keyCode ? e.keyCode : e.which
 
 		switch(key) {
 			case 37:
@@ -51,35 +58,52 @@ export default class Snake {
   }
 
   eat(food) {
-  	if(distance(this.x, food.x) < 1 && distance(this.y, food.y) < 1){
+  	if(distance(this.vector.x, food.x) < 1 && distance(this.vector.y, food.y) < 1){
   		this.total++
-  		console.log(this.total)
   		return true
   	}
   }
 
 	update() {
-		this.x += this.dx * this.scale
-		this.y += this.dy * this.scale
+		// add current possition as first unit of the tail array
+		this.tail.splice(0, 0, {x: this.vector.x, y: this.vector.y}) 
 
-		if (this.x + this.scale > this.canvas.width) {
-			this.x = 0
-		} else if (this.x < 0) {
-			this.x = this.canvas.width - this.scale
+		// check if tail is filled, if too large, remove last tail segment
+		if (this.total < this.tail.length) {
+			this.tail = this.tail.slice(0, this.total)
 		}
-		if (this.y + this.scale > this.canvas.height) {
-			this.y = 0
-		} else if (this.y < 0) {
-			this.y = this.canvas.height - this.scale
+
+		// updates Snake head
+		this.vector.x += this.dx 
+		this.vector.y += this.dy
+		
+		// boundary control
+		if (this.vector.x * this.scale + this.scale > this.canvas.width) {
+			this.vector.x = 0
+		} else if (this.vector.x < 0) {
+			this.vector.x = this.canvas.width / this.scale
 		}
+		if (this.vector.y * this.scale + this.scale > this.canvas.height) {
+			this.vector.y = 0
+		} else if (this.vector.y < 0) {
+			this.vector.y = this.canvas.height / this.scale
+		}
+
 		// calls draw method for next frame of snake
 		this.draw();
+		this.tail = this.nextTail
+
 	}
 
 	draw() {
+	// draws tail of snake
+		for(let i = 0; i < this.tail.length; i++) {
+			this.canvas.ctx.fillStyle = "#00ff00"
+			this.canvas.ctx.fillRect(this.tail[i].x * this.scale , this.tail[i].y * this.scale, this.scale - 2, this.scale - 2)
+		}
+	// draw head of snake
 		this.canvas.ctx.fillStyle = "#00ff00"
-		this.canvas.ctx.fillRect(this.x, this.y, this.scale, this.scale)
-
+		this.canvas.ctx.fillRect(this.vector.x * this.scale, this.vector.y * this.scale, this.scale -2, this.scale -2)
 	}
 
   registerEventListeners () {

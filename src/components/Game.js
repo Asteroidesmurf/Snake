@@ -19,8 +19,8 @@ export default class Game {
   	this.canvas = {
   		ctx, width, height
   	}
-  	this.fps = 8
-    this.scale = 10
+  	this.fps = 10
+    this.scale = 20
   }
 
   startAnimating(fps) {
@@ -66,7 +66,7 @@ export default class Game {
       initiate a snake
       params: ctx, width, height, x start, y start, blocksize
     **/
-    this.snake = new Snake(this.canvas.ctx, this.canvas.width, this.canvas.height, 10, 10, this.scale)
+    this.snake = new Snake(this.canvas.ctx, this.canvas.width, this.canvas.height, 5, 5 , this.scale)
 
     /** 
       initiate some food

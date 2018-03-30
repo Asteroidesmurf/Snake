@@ -5,8 +5,8 @@ const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
 
 // Set canvas dimensions.
-let canvasWidth = 600
-let canvasHeight = 600
+let canvasWidth = 400
+let canvasHeight = 400
 
 canvas.width = canvasWidth
 canvas.height = canvasHeight
