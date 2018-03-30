@@ -14,10 +14,7 @@ export default class Snake {
 	dy = null
 	scale = null
 	total = null
- 	i = null
- 	j = null
-
-
+	currentDirection = null
 	constructor(ctx, width, height, x, y, scale) {
 		this.canvas = {
 			ctx, width, height
@@ -29,7 +26,7 @@ export default class Snake {
 		this.scale = scale
 		this.tail = []
 		this.nextTail = []
-		this.dx = 1
+		this.dx = 0
 		this.dy = 0
 		this.total = 5
 	}
@@ -39,20 +36,32 @@ export default class Snake {
 
 		switch(key) {
 			case 37:
-				this.dx = -1
-				this.dy = 0
+				if(this.currentDirection != "right") {
+					this.dx = -1
+					this.dy = 0
+					this.currentDirection = "left"
+				}
 			break
 			case 38:
-				this.dx = 0
-				this.dy = -1
+				if(this.currentDirection != "down") {
+					this.dx = 0
+					this.dy = -1
+					this.currentDirection = "up"
+				}
 			break
 			case 39:
-				this.dx = 1
-				this.dy = 0
+				if(this.currentDirection != "left") {
+					this.dx = 1
+					this.dy = 0
+					this.currentDirection = "right"
+				}
 			break
 			case 40:
-				this.dx = 0
-				this.dy = 1
+				if(this.currentDirection != "up") {
+					this.dx = 0
+					this.dy = 1
+					this.currentDirection = "down"
+				}
 			break
 		}  	
   }
