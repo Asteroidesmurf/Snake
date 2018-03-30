@@ -14,6 +14,7 @@ export default class Game {
   fpsInterval = null
   startTime = null
   scale = null
+  score = null
 
   constructor(ctx, width, height) {
   	this.canvas = {
@@ -21,6 +22,7 @@ export default class Game {
   	}
   	this.fps = 10
     this.scale = 20
+    this.score = 0
   }
 
   startAnimating(fps) {
@@ -31,7 +33,12 @@ export default class Game {
   }
 
   reset() {
+    this.score = 0
     this.init()
+  }
+
+  addScore(food, tail) {
+    this.score += tail * Math.floor(food.age)
   }
 
   animate() {
@@ -60,10 +67,18 @@ export default class Game {
       this.food.draw()
       // checks if snake is on food
       if (this.snake.eat(this.food)) {
+        this.addScore(this.food, this.snake.tail.length)
         this.food = new Food(this.canvas.ctx, this.canvas.width, this.canvas.height, this.scale)
       }
 
+      // checks if snake eats own tail and dies
       this.snake.death(this)
+      
+      // draws score
+      this.canvas.ctx.font = "20px Arial"
+      this.canvas.ctx.fillStyle = "white"
+      this.canvas.ctx.textAlign = "left"
+      this.canvas.ctx.fillText("Score: " + this.score, 10 , 25)
     }
   }
 

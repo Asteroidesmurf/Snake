@@ -28,6 +28,7 @@ export default class Snake {
 		this.tail = []
 		this.dx = 1
 		this.dy = 0
+		this.currentDirection = "right"
 		this.total = 5
 	}
 
