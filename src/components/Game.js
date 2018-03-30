@@ -30,6 +30,10 @@ export default class Game {
     this.animate();
   }
 
+  reset() {
+    this.init()
+  }
+
   animate() {
     // request another frame
     requestAnimationFrame(this.animate.bind(this));
@@ -58,6 +62,8 @@ export default class Game {
       if (this.snake.eat(this.food)) {
         this.food = new Food(this.canvas.ctx, this.canvas.width, this.canvas.height, this.scale)
       }
+
+      this.snake.death(this)
     }
   }
 

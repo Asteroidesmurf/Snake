@@ -15,6 +15,7 @@ export default class Snake {
 	scale = null
 	total = null
 	currentDirection = null
+
 	constructor(ctx, width, height, x, y, scale) {
 		this.canvas = {
 			ctx, width, height
@@ -25,8 +26,7 @@ export default class Snake {
 
 		this.scale = scale
 		this.tail = []
-		this.nextTail = []
-		this.dx = 0
+		this.dx = 1
 		this.dy = 0
 		this.total = 5
 	}
@@ -73,13 +73,21 @@ export default class Snake {
   	}
   }
 
+  death(game) {
+    this.tail.forEach(tail => {
+      if(this.vector.x === tail.x && this.vector.y === tail.y) {
+        game.reset()
+      }
+    })
+  }
+
 	update() {
 		// add current possition as first unit of the tail array
 		this.tail.splice(0, 0, {x: this.vector.x, y: this.vector.y}) 
 
 		// check if tail is filled, if too large, remove last tail segment
-		if (this.total < this.tail.length) {
-			this.tail = this.tail.slice(0, this.total)
+		if (this.total < this.tail.length - 1) {
+			this.tail = this.tail.slice(0, this.total + 1)
 		}
 
 		// updates Snake head
@@ -100,8 +108,6 @@ export default class Snake {
 
 		// calls draw method for next frame of snake
 		this.draw();
-		this.tail = this.nextTail
-
 	}
 
 	draw() {
